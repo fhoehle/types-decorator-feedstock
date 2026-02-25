@@ -1,0 +1,48 @@
+schema_version: 1
+
+context:
+  version: 5.2.0.20251101
+
+package:
+  name: types-decorator
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/t/types-decorator/types_decorator-${{ version }}.tar.gz
+  sha256: 120e2bf4792ec8a47653db1cb380c7aacb6862a797c1490a910aacc21548286c
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - pip
+    - setuptools
+    - python >=${{ python_min }}
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - requirements:
+      run:
+        - pip
+        - python >=${{ python_min }}
+    script:
+      - pip check
+
+  - package_contents:
+      site_packages:
+        - decorator-stubs/__init__.pyi
+
+about:
+  summary: Typing stubs for decorator
+  license: Apache-2.0 AND MIT
+  license_file: LICENSE
+  homepage: https://github.com/python/typeshed
+
+extra:
+  recipe-maintainers:
+    - fhoehle
+    - conda-forge/mypy
